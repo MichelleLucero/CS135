@@ -39,9 +39,9 @@ string transformW(string W){
 
 
 string findWord(string W){
-   
+
     ifstream inFile;
-    inFile.open("dict.txt");
+    inFile.open("cmudict.0.7a.txt"); //take out txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -53,17 +53,17 @@ string findWord(string W){
     }
     else{
         string line;
-        bool found = false;
+        bool found = false; //condition set to cout in case of Not Found
         while(!inFile.eof()){
         getline(inFile, line);
         splitOnSpace(line,beforeSpace,afterSpace);
         
-        //cout<<beforeSpace<<endl;
 
         if(W == beforeSpace){
             cout<<"Pronunciation     :"<< afterSpace <<endl;
-            found = true;
+            found = true; 
             break;
+            return afterSpace;
         } 
 
              
@@ -76,6 +76,8 @@ string findWord(string W){
     }
     inFile.close();
 }
+
+
 
 
 int main(){
