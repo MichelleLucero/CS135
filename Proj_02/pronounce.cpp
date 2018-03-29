@@ -39,12 +39,7 @@ string transformW(string W){
 
 
 string findWord(string W){
-
-    // cout<<"Enter a word"<<endl;
-    // getline(cin, W);
-    // string upperW = transformW(W);
    
-
     ifstream inFile;
     inFile.open("dict.txt");
 
