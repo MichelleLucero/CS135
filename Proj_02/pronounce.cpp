@@ -63,17 +63,13 @@ string pronunciation(string W){
         
 
         if(W == beforeSpace){
-            cout<<"Pronunciation     :"<< afterSpace <<endl;
+            // cout<<"Pronunciation     :"<< afterSpace <<endl;
             found = true; 
             break;
             return afterSpace;
-
-            
         } 
-
-             
-
     }
+
     if(!found){
         cout<<"Not Found"<<endl;
         }
@@ -111,17 +107,17 @@ string identical(string W){
         if(W == beforeSpace){
             pronun = afterSpace; //currPronun
         }
-
+        
         // inFile.close();//Kill file.
         // inFile.open()
         
         if(pronun == afterSpace && beforeSpace != W){ //does not account for words with the same pronun before the inputed word
-                cout<< beforeSpace << endl;
+                //cout<< beforeSpace << endl;
                 result += beforeSpace + " ";
             }              
 
     }
-    cout<< result << endl;
+
     inFile.close();
     return result;
 }
@@ -134,9 +130,10 @@ int main(){
     cout<<"Enter a word"<<endl;
     getline(cin, W);
 
-    string upperW = pronunciation(W);
+    string upperW = transformW(W);
     
+    cout<<"Pronunciation:    " << pronunciation(upperW)<<endl;
 
-    cout<< identical(upperW) <<endl;
+    cout<<"Identical:         "<< identical(upperW) <<endl;
 
 }
