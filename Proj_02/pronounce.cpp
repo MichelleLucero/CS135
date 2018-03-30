@@ -126,7 +126,7 @@ string pronunciation(string W){
 string identical(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out txt when submitting
+    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
