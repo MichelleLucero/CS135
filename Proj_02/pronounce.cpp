@@ -41,7 +41,7 @@ string transformW(string W){
 
 
 
-string findWord(string W){
+string pronunciation(string W){
 
     ifstream inFile;
     inFile.open("cmudict.0.7a.txt"); //take out txt when submitting
@@ -110,15 +110,18 @@ string identical(string W){
         
         if(W == beforeSpace){
             pronun = afterSpace; //currPronun
-        inFile.clear();//Clear file handler.
-        inFile.seekg(0, ios_base::beg);//Go back to beginning.
         }
-            if(pronun == afterSpace && beforeSpace != W){ //does not account for words with the same pronun before the inputed word
+
+        // inFile.close();//Kill file.
+        // inFile.open()
+        
+        if(pronun == afterSpace && beforeSpace != W){ //does not account for words with the same pronun before the inputed word
                 cout<< beforeSpace << endl;
                 result += beforeSpace + " ";
             }              
 
     }
+    cout<< result << endl;
     inFile.close();
     return result;
 }
@@ -131,9 +134,8 @@ int main(){
     cout<<"Enter a word"<<endl;
     getline(cin, W);
 
-    string upperW = transformW(W);
+    string upperW = pronunciation(W);
     
-    //cout<< findWord(upperW)<<endl;
 
     cout<< identical(upperW) <<endl;
 
