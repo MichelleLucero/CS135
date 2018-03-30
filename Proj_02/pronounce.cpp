@@ -44,7 +44,7 @@ string transformW(string W){
 string pronunciation(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out txt when submitting
+    inFile.open("cmudict.0.7a"); //take out txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -79,54 +79,10 @@ string pronunciation(string W){
 
 
 
-
-
-// string identical(string W){
-
-//     ifstream inFile;
-//     inFile.open("cmudict.0.7a.txt"); //take out txt when submitting
-
-//     string beforeSpace;
-//     string afterSpace;
-//     string result;
-//     string line;
-//     string pronun;
-
-//     //string pronunciation;
-
-//     //Check For error
-//     if(inFile.fail()){
-//         cerr << "Error Opening File" << endl;
-//         exit(1);
-//     }
-//         //bool found = false; //condition set to cout in case of Not Found
-//         while(!inFile.eof()){
-//         getline(inFile, line);
-//         splitOnSpace(line,beforeSpace,afterSpace);
-        
-//         if(W == beforeSpace){
-//             pronun = afterSpace; //currPronun
-//         }
-        
-//         // inFile.close();//Kill file.
-//         // inFile.open()
-        
-//         if(pronun == afterSpace && beforeSpace != W){ //does not account for words with the same pronun before the inputed word
-//                 //cout<< beforeSpace << endl;
-//                 result += beforeSpace + " ";
-//             }              
-
-//     }
-
-//     inFile.close();
-//     return result;
-// }
-
-
 string identical(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
+    inFile.open("cmudict.0.7a"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -152,12 +108,20 @@ string identical(string W){
         
         // inFile.close();//Kill file.
         // inFile.open()          
-
     }
 
     inFile.close();
     return result;
 }
+
+// string addPhoneme(string W){
+
+
+
+
+
+
+// }
 
 
 
