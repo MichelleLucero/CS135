@@ -4,6 +4,7 @@
 #include<string>
 
 
+
 using namespace std;
 
 void splitOnSpace(string line, string & before, string & after) {
@@ -44,7 +45,7 @@ string transformW(string W){
 string pronunciation(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a"); //take out txt when submitting
+    inFile.open("cmudict.0.7a.txt"); //take out txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -82,7 +83,7 @@ string pronunciation(string W){
 string identical(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a"); //take out .txt when submitting
+    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -114,14 +115,37 @@ string identical(string W){
     return result;
 }
 
-// string addPhoneme(string W){
+int countPhoneme(string W){
+    int index = W.length() - 1;
+    int count = 0;
+    for(int i=0; i<index;i++){
+        if(W[i] == ' '){
+            count += 1;
+        }
+    }
+    return count;
+}
 
 
+string nthPhoneme(string W){ //doesnt work due to issues between char and string
+    int numPho = countPhoneme(W);
+    string listofPho[numPho];
+    string beforeSpace;
+    string afterSpace;
+    int counter = 0; //for listofPho index
+    
+    for(int i = 0; i < numPho; i++){
+        splitOnSpace(W, beforeSpace, afterSpace);//W pronuncaition
+
+        listofPho[counter] = beforeSpace;
+        counter += 1;
+        W = beforeSpace; //reset W to beforeSpace so that for the next iteration it will split it again for the next space
+    }
+
+    return listofPho; 
+}
 
 
-
-
-// }
 
 
 
@@ -134,9 +158,16 @@ int main(){
     getline(cin, W);
 
     string upperW = transformW(W);
+
+    string P = pronunciation(upperW); //pronunciation string
     
-    cout<<"Pronunciation:    " << pronunciation(upperW)<<endl;
+    cout<<"Pronunciation:    " << P <<endl;
 
     cout<<"Identical:         "<< identical(upperW) <<endl;
+
+    //cout<<"number of pho     "<<countPhoneme(P)<<endl;
+
+    cout<< nthPhoneme(P)<<endl;
+
 
 }
