@@ -319,7 +319,7 @@ bool check_replaced(string inputpro,string pro){ //use this to filter pronuncati
     bool replaced = false;
     int numofinputpro = countPhoneme(inputpro); //Phonemes of input
     int numofpro = countPhoneme(pro); //Phonemes of afterSpace' pronuciation --- to be used in replacePhoneme
-
+    int amountforRemoved = numofinputpro -1;
  
     int counter = 0; // keeps tracks of the phonemes in common
     if(numofinputpro == numofpro){ //needs to have the same # of phonemes
@@ -327,17 +327,16 @@ bool check_replaced(string inputpro,string pro){ //use this to filter pronuncati
             
             if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){ //checks to see if they are the same
                 counter += 1;
-                cout<<nthPhoneme(inputpro,i)<<endl;
+                
             }
-            
 
-            if(counter == numofinputpro - 1){ // counter should be equal to  numofinputpro -1 bc that would imply that the two pronunciation have x-1 in common
+            if(counter == amountforRemoved){ // counter should be equal to  numofinputpro -1 bc that would imply that the two pronunciation have x-1 in
             replaced = true;
             }   
         }
-         cout<<counter<<endl;
+        cout<<counter<<endl; //keep track of common phonemes
     }
-    //cout<<counter<<endl;
+    
     return replaced; 
 }
 
@@ -411,7 +410,7 @@ string replacePhoneme(string W){
 
         int numofPhoA = countPhoneme(afterSpace); 
             
-            if(check_remove(W, afterSpace)==true){
+            if(check_replaced(W, afterSpace)==true){
 
                 if(isAlpha(beforeSpace)==true ){
                     result += beforeSpace += " ";
@@ -452,10 +451,15 @@ int main(){
     //cout<< nthPhoneme(P,0)<<endl;
     
     //cout<< boolalpha << check_add(" AH0 L UW1 ZH AH0 N"," K AH0 L UW1 ZH AH0 N")<<endl;
-    cout<< boolalpha<<check_replaced(" D OW1 N AH2 T", " K R AE1 F T")<<endl;
+    cout<< boolalpha<<check_replaced(" P L AE1 N T S"," G L AE1 N T S")<<endl; //should print true
+    cout<< boolalpha<<check_replaced(" P L AE1 N T S"," B L AE1 S T S")<<endl; //should print false
+    cout<< boolalpha<<check_replaced(" P L AE1 N T S"," P R IH1 N T S")<<endl; //should print false
+
+
     
     // cout<<"Add phoneme:       "<<addPhoneme(P)<<endl;
-    // cout<<"Remove phoneme:    "<<removePhoneme(P)<<endl;
+    //cout<<"Remove phoneme:    "<<removePhoneme(P)<<endl;
+    //cout<<"Replace phoneme:     "<<replacePhoneme(P)<<endl;
 
 
 }
