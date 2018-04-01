@@ -160,7 +160,7 @@ string nthPhoneme(string W, int pos){
     return desiredPho; 
 }
 
-bool check_add(string inputpro,string pro){
+bool check_add(string inputpro,string pro){ //use this to filter pronuncations in my addPhoneme funcs
     bool add = false;
     int numofinputpro = countPhoneme(inputpro);//VIP number
     int numofpro = countPhoneme(pro);
@@ -186,7 +186,7 @@ bool check_add(string inputpro,string pro){
     return add; 
 }
 
-bool check_remove(string inputpro,string pro){ //I want to use this to filter pronuncations in my addPhoneme funcs
+bool check_remove(string inputpro,string pro){ //use this to filter pronuncations in my removePhoneme funcs
     
     bool remove = false;
     int numofinputpro = countPhoneme(inputpro);//VIP number
@@ -210,7 +210,7 @@ bool check_remove(string inputpro,string pro){ //I want to use this to filter pr
             }   
         }
     }
-    cout<<counter<<endl;
+    // cout<<counter<<endl;
     return remove; 
 }
 
@@ -226,8 +226,6 @@ string addPhoneme(string W){
 
     int numofPho = countPhoneme(W); //6 in plants
     
-
-    int counter = 0; //keeps count of how many phonemes are similar b/w two pronunciations 
     //Check For error
     if(inFile.fail()){
         cerr << "Error Opening File" << endl;
@@ -238,9 +236,9 @@ string addPhoneme(string W){
         getline(inFile, line);
         splitOnSpace(line,beforeSpace,afterSpace); 
 
-            if(check_add(pronun, afterSpace)){
+            if(check_add(pronun, afterSpace)){ //it's not working T_T 
     
-                // result += beforeSpace + " ";
+                result += beforeSpace + " ";
             }            
         }
 
