@@ -184,7 +184,7 @@ bool check_add(string inputpro,string pro){ //use this to filter pronuncations i
             }   
         }
     }
-    cout<<counter<<endl;
+    
     return add; 
 }
 
@@ -239,12 +239,12 @@ string addPhoneme(string W){
         getline(inFile, line);
         splitOnSpace(line,beforeSpace,afterSpace);
 
+
+
         int numofPhoA = countPhoneme(afterSpace); 
-
-        if(numofPho == numofPhoA -1){ // this conidtion works
-
-            result += afterSpace + "\n";
-
+            
+        if(check_add(W, afterSpace)==true){ 
+            result += beforeSpace + "\n";
 
         }
 
@@ -268,7 +268,7 @@ int main(){
 
     string P = pronunciation(upperW); //pronunciation string
 
-    cout<< countPhoneme(P)<<endl;
+   // cout<< countPhoneme(P)<<endl;
     
     // cout<<"Pronunciation:    " << P <<endl;
 
@@ -279,10 +279,10 @@ int main(){
 
     //cout<< nthPhoneme(P,0)<<endl;
     
-    cout<< boolalpha << check_add(" AH0 L UW1 ZH AH0 N"," K AH0 L UW1 ZH AH0 N")<<endl;
+    //cout<< boolalpha << check_add(" AH0 L UW1 ZH AH0 N"," K AH0 L UW1 ZH AH0 N")<<endl;
     //cout<< boolalpha<<check_remove(" F L AW1 ER0 Z"," F AW1 ER0 Z")<<endl;
     
-    //cout<<addPhoneme(P)<<endl;
+    cout<<addPhoneme(P)<<endl;
 
 
 }
