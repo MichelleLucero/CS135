@@ -129,7 +129,7 @@ int countPhoneme(string W){
 string fixPro(string pro){ // fixed pronunciation's first space problem
     int length = pro.length();
     string fixed;
-    for(int i = 0; i <length; i++){
+    for(int i = 1; i <length; i++){
         fixed += pro[i];
     }
     return fixed;
@@ -138,6 +138,8 @@ string fixPro(string pro){ // fixed pronunciation's first space problem
 string nthPhoneme(string W, int pos){ 
     
     string fix = fixPro(W); // "P L AE1 N T S" instead of " P L AE1 N T S"
+
+
 
     int numPho = countPhoneme(W); // number of phonemes in the pronuncaition
 
@@ -164,17 +166,16 @@ bool check_add(string inputpro,string pro){ //use this to filter pronuncations i
     bool add = false;
     int numofinputpro = countPhoneme(inputpro);//VIP number
     int numofpro = countPhoneme(pro);
-    string inputprofix = fixPro(inputpro);
-    string profix = fixPro(pro);
+
  
     int counter = 0;
     if(numofinputpro == numofpro -1){
         for(int i = 0; i < numofinputpro; i++){
             int endPho = i + 1;
-            if(nthPhoneme(inputprofix,i) == nthPhoneme(pro,i)){
+            if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){
                 counter += 1;
             }
-            if(nthPhoneme(inputprofix,i) == nthPhoneme(pro, endPho)){
+            if(nthPhoneme(inputpro,i) == nthPhoneme(pro, endPho)){
                 counter += 1;
             }
 
@@ -183,36 +184,37 @@ bool check_add(string inputpro,string pro){ //use this to filter pronuncations i
             }   
         }
     }
+    cout<<counter<<endl;
     return add; 
 }
 
-bool check_remove(string inputpro,string pro){ //use this to filter pronuncations in my removePhoneme funcs
+// bool check_remove(string inputpro,string pro){ //use this to filter pronuncations in my removePhoneme funcs
     
-    bool remove = false;
-    int numofinputpro = countPhoneme(inputpro);//VIP number
-    int numofpro = countPhoneme(pro);
-    string inputprofix = fixPro(inputpro); //earases the first space in pronuncaition so nthPhoneme can work
-    string profix = fixPro(pro);
+//     bool remove = false;
+//     int numofinputpro = countPhoneme(inputpro);//VIP number
+//     int numofpro = countPhoneme(pro);
+//     string inputpro = fixPro(inputpro); //earases the first space in pronuncaition so nthPhoneme can work
+//     string profix = fixPro(pro);
  
-    int counter = 0;
-    if(numofinputpro -1 == numofpro){
-        for(int i = 0; i < numofinputpro; i++){
-            int endPho = i + 1;
-            if(nthPhoneme(inputprofix,i) == nthPhoneme(pro,i)){
-                counter += 1;
-            }
-            if(nthPhoneme(inputprofix, endPho) == nthPhoneme(pro,i)){
-                counter += 1;
-            }
+//     int counter = 0;
+//     if(numofinputpro -1 == numofpro){
+//         for(int i = 0; i < numofinputpro; i++){
+//             int endPho = i + 1;
+//             if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){
+//                 counter += 1;
+//             }
+//             if(nthPhoneme(inputpro, endPho) == nthPhoneme(pro,i)){
+//                 counter += 1;
+//             }
 
-            if(counter == numofinputpro - 1){
-            remove = true;
-            }   
-        }
-    }
-    // cout<<counter<<endl;
-    return remove; 
-}
+//             if(counter == numofinputpro - 1){
+//             remove = true;
+//             }   
+//         }
+//     }
+//     // cout<<counter<<endl;
+//     return remove; 
+// }
 
 string addPhoneme(string W){ 
     ifstream inFile;
@@ -225,6 +227,7 @@ string addPhoneme(string W){
     string pronun = pronunciation(W);
 
     int numofPho = countPhoneme(W); //6 in plants
+    int counter = 0;
     
     //Check For error
     if(inFile.fail()){
@@ -234,22 +237,24 @@ string addPhoneme(string W){
 
         while(!inFile.eof()){
         getline(inFile, line);
-        splitOnSpace(line,beforeSpace,afterSpace); 
+        splitOnSpace(line,beforeSpace,afterSpace);
 
-            if(check_add(pronun, afterSpace)){ //it's not working T_T 
-    
-                result += beforeSpace + " ";
-            }            
+        int numofPhoA = countPhoneme(afterSpace); 
+
+        if(numofPho == numofPhoA -1){ // this conidtion works
+
+            result += afterSpace + "\n";
+
+
+        }
+
+            
         }
 
     inFile.close();
     return result;
-}
-
-
-
-
-
+    
+    }
 
 
 int main(){
@@ -263,6 +268,7 @@ int main(){
 
     string P = pronunciation(upperW); //pronunciation string
 
+    cout<< countPhoneme(P)<<endl;
     
     // cout<<"Pronunciation:    " << P <<endl;
 
@@ -271,12 +277,12 @@ int main(){
     //cout<<"number of pho     "<<countPhoneme(P)<<endl;
     //cout<<fixPro(P);
 
-    //cout<< nthPhoneme(P,1)<<endl;
+    //cout<< nthPhoneme(P,0)<<endl;
     
-    //cout<< boolalpha << check_add(" AH0 L UW1 ZH AH0 N"," AH0 L UW1 ZH AH0 N Z")<<endl;
+    cout<< boolalpha << check_add(" AH0 L UW1 ZH AH0 N"," K AH0 L UW1 ZH AH0 N")<<endl;
     //cout<< boolalpha<<check_remove(" F L AW1 ER0 Z"," F AW1 ER0 Z")<<endl;
     
-    cout<<addPhoneme(P)<<endl;
+    //cout<<addPhoneme(P)<<endl;
 
 
 }
