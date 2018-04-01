@@ -4,8 +4,7 @@ Course: CSCI-135
 Instructor: Mike Zamansky
 Assignment: Project 02, e.g., Pronounce
 
-Here, briefly, at least in one or a few sentences
-describe what the program does.
+This program takes in a user's input word and find that word's pronunciation, idental pronunciation, added phoneme, removed phoneme, and replaced phoneme.
 */
 
 #include<iostream>
@@ -55,7 +54,7 @@ string transformW(string W){
 string pronunciation(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out txt when submitting
+    inFile.open("cmudict.0.7a"); //take out txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -93,7 +92,7 @@ string pronunciation(string W){
 string identical(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
+    inFile.open("cmudict.0.7a"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -117,8 +116,7 @@ string identical(string W){
             result += beforeSpace + " ";
         }
         
-        // inFile.close();//Kill file.
-        // inFile.open()          
+        
     }
 
     inFile.close();
@@ -185,7 +183,7 @@ bool check_add(string inputpro,string pro){ //use this to filter pronuncations i
             int endPho = i + 1; //accounts for a pronunciation that has a phoneme added at the end
 
             
-            if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){ //suppose to account for phonemes added at the end
+            if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){ 
                 counter += 1;
             }
             if(nthPhoneme(inputpro,i) == nthPhoneme(pro, endPho)){ //suppose to account for phonemes added at the beginning
@@ -276,14 +274,14 @@ bool isAlpha(string W){
 
 string addPhoneme(string W){ 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
+    inFile.open("cmudict.0.7a"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
     string result;
     string line;
 
-    int numofPho = countPhoneme(W); //6 in plants
+    int numofPho = countPhoneme(W); 
     int counter = 0;
     
     //Check For error
@@ -300,8 +298,8 @@ string addPhoneme(string W){
 
         int numofPhoA = countPhoneme(afterSpace); 
             
-            if(check_add(W, afterSpace)==true){//trying to solve ackerman - " AE1 K ERO M AHO N" resulting in " AE1 N K ERO AHO N"
-            //since the end and beg phoneme are the same ik it's not consecutive so these condition should help?? but it's not working
+            if(check_add(W, afterSpace)==true){
+
                 if(isAlpha(beforeSpace)==true ){
                     result += beforeSpace += " ";
                 }
@@ -315,26 +313,26 @@ string addPhoneme(string W){
     return result;
     
     }
-bool check_replaced(string inputpro,string pro){ //use this to filter pronuncations that have x-1 phonemes in common with the inputed word
+bool check_replaced(string inputpro,string pro){ 
     bool replaced = false;
     int numofinputpro = countPhoneme(inputpro); //Phonemes of input
     int numofpro = countPhoneme(pro); //Phonemes of afterSpace' pronuciation --- to be used in replacePhoneme
-    int amountforRemoved = numofinputpro -1;
- 
     int counter = 0; // keeps tracks of the phonemes in common
+
     if(numofinputpro == numofpro){ //needs to have the same # of phonemes
         for(int i = 0; i < numofinputpro + 1; i++){
             
-            if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){ //checks to see if they are the same
+            if(nthPhoneme(inputpro,i) != nthPhoneme(pro,i)){ //checks to see if they are different
                 counter += 1;
                 
             }
-
-            if(counter == amountforRemoved){ // counter should be equal to  numofinputpro -1 bc that would imply that the two pronunciation have x-1 in
-            replaced = true;
-            }   
+ 
         }
-        cout<<counter<<endl; //keep track of common phonemes
+
+        if(counter == 1){ // if counter==1 that means there is a replaced phoneme
+            replaced = true;
+        } 
+
     }
     
     return replaced; 
@@ -342,14 +340,14 @@ bool check_replaced(string inputpro,string pro){ //use this to filter pronuncati
 
 string removePhoneme(string W){ 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
+    inFile.open("cmudict.0.7a"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
     string result;
     string line;
 
-    int numofPho = countPhoneme(W); //6 in plants
+    int numofPho = countPhoneme(W);
     int counter = 0;
     
     //Check For error
@@ -386,14 +384,14 @@ string removePhoneme(string W){
 
 string replacePhoneme(string W){ 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
+    inFile.open("cmudict.0.7a"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
     string result;
     string line;
 
-    int numofPho = countPhoneme(W); //6 in plants
+    int numofPho = countPhoneme(W); 
     int counter = 0;
     
     //Check For error
@@ -401,12 +399,9 @@ string replacePhoneme(string W){
         cerr << "Error Opening File" << endl;
         exit(1);
     }
-
         while(!inFile.eof()){
         getline(inFile, line);
         splitOnSpace(line,beforeSpace,afterSpace);
-
-
 
         int numofPhoA = countPhoneme(afterSpace); 
             
@@ -431,35 +426,13 @@ int main(){
     string W;
     cout<<"Enter a word"<<endl;
     getline(cin, W);
-
-
     string upperW = transformW(W);
-
     string P = pronunciation(upperW); //pronunciation string
 
-   // cout<< countPhoneme(P)<<endl;
-    
     cout<<"Pronunciation:    " << P <<endl;
-
-    cout<<"Identical:         "<< identical(upperW) <<endl;
-
-    //cout<< boolalpha << isAlpha("anchorman(1)");
-
-    //cout<<"number of pho     "<<countPhoneme(P)<<endl;
-    //cout<<fixPro(P);
-
-    //cout<< nthPhoneme(P,0)<<endl;
-    
-    //cout<< boolalpha << check_add(" AH0 L UW1 ZH AH0 N"," K AH0 L UW1 ZH AH0 N")<<endl;
-    cout<< boolalpha<<check_replaced(" P L AE1 N T S"," G L AE1 N T S")<<endl; //should print true
-    cout<< boolalpha<<check_replaced(" P L AE1 N T S"," B L AE1 S T S")<<endl; //should print false
-    cout<< boolalpha<<check_replaced(" P L AE1 N T S"," P R IH1 N T S")<<endl; //should print false
-
-
-    
-    // cout<<"Add phoneme:       "<<addPhoneme(P)<<endl;
-    //cout<<"Remove phoneme:    "<<removePhoneme(P)<<endl;
-    //cout<<"Replace phoneme:     "<<replacePhoneme(P)<<endl;
-
+    cout<<"Identical:         "<< identical(upperW) <<endl;    
+    cout<<"Add phoneme:       "<<addPhoneme(P)<<endl;
+    cout<<"Remove phoneme:    "<<removePhoneme(P)<<endl;
+    cout<<"Replace phoneme:     "<<replacePhoneme(P)<<endl;
 
 }
