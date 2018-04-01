@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include<string>
 
+#include<vector>
+
 
 
 using namespace std;
@@ -127,24 +129,30 @@ int countPhoneme(string W){
 }
 
 
-string nthPhoneme(string W){ //doesnt work due to issues between char and string
-    int numPho = countPhoneme(W);
-    string listofPho[numPho];
+string nthPhoneme(string W, int pos){ 
+
+    int numPho = countPhoneme(W); // number of phonemes in the pronuncaition
+
     string beforeSpace;
     string afterSpace;
-    int counter = 0; //for listofPho index
+    string desiredPho;//the nth Phoneme 
     
     for(int i = 0; i < numPho; i++){
         splitOnSpace(W, beforeSpace, afterSpace);//W pronuncaition
+        cout<<W<<endl; //testing and it does print out the pronuncaition
+        cout<<beforeSpace<<endl; // it doesn't print out beforeSpace idk why???
+        
+        if(i == pos){
+            desiredPho = beforeSpace; //should grab the desired phoneme
 
-        listofPho[counter] = beforeSpace;
-        counter += 1;
-        W = beforeSpace; //reset W to beforeSpace so that for the next iteration it will split it again for the next space
+        }
+        else{
+            W = beforeSpace; // resets W to beforeSpace for next iteration
+        }
     }
 
-    return listofPho; 
+    return desiredPho; 
 }
-
 
 
 
@@ -167,7 +175,7 @@ int main(){
 
     //cout<<"number of pho     "<<countPhoneme(P)<<endl;
 
-    cout<< nthPhoneme(P)<<endl;
+    cout<< nthPhoneme(P,1)<<endl;
 
 
 }
