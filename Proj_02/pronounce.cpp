@@ -72,7 +72,7 @@ string pronunciation(string W){
     }
 
     if(!found){
-        cout<<"Not Found"<<endl;
+        cout<<"Not Foud"<<endl;
         }
     }
     inFile.close();
@@ -224,7 +224,7 @@ string addPhoneme(string W){
     string afterSpace;
     string result;
     string line;
-    string pronun = pronunciation(W);
+    // string pronun = pronunciation(W);
 
     int numofPho = countPhoneme(W); //6 in plants
     int counter = 0;
@@ -244,7 +244,7 @@ string addPhoneme(string W){
         int numofPhoA = countPhoneme(afterSpace); 
             
         if(check_add(W, afterSpace)==true){ 
-            result += beforeSpace + "\n";
+            result += beforeSpace + " ";
 
         }
 
