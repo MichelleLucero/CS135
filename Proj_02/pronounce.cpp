@@ -45,7 +45,7 @@ string transformW(string W){
 string pronunciation(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out txt when submitting
+    inFile.open("cmudict.0.7a"); //take out txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -83,7 +83,7 @@ string pronunciation(string W){
 string identical(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
+    inFile.open("cmudict.0.7a"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -134,6 +134,7 @@ string fixPro(string pro){ // fixed pronunciation's first space problem
     }
     return fixed;
 }
+
 
 string nthPhoneme(string W, int pos){ 
     
@@ -190,6 +191,46 @@ bool check_add(string inputpro,string pro){ //use this to filter pronuncations i
     return add; 
 }
 
+bool isAlpha(string W){
+    bool alpha = true;
+    int length = W.length();
+
+
+    for(int i = 0; i < length; i++){
+        if(W[i] == '0'){
+            alpha = false;
+        }
+        if(W[i] == '1'){
+            alpha = false;
+        }
+        if(W[i] == '2'){
+            alpha = false;
+        }
+        if(W[i] == '3'){
+            alpha = false;
+        }
+        if(W[i] == '4'){
+            alpha = false;
+        }
+        if(W[i] == '5'){
+            alpha = false;
+        }
+        if(W[i] == '6'){
+            alpha = false;
+        }
+        if(W[i] == '7'){
+            alpha = false;
+        }
+        if(W[i] == '8'){
+            alpha = false;
+        }
+        if(W[i] == '9'){
+            alpha = false;
+        }
+    }
+
+    return alpha;
+}
 // bool check_remove(string inputpro,string pro){ //use this to filter pronuncations in my removePhoneme funcs
     
 //     bool remove = false;
@@ -220,7 +261,7 @@ bool check_add(string inputpro,string pro){ //use this to filter pronuncations i
 
 string addPhoneme(string W){ 
     ifstream inFile;
-    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
+    inFile.open("cmudict.0.7a"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -246,13 +287,10 @@ string addPhoneme(string W){
             
             if(check_add(W, afterSpace)==true){//trying to solve ackerman - " AE1 K ERO M AHO N" resulting in " AE1 N K ERO AHO N"
             //since the end and beg phoneme are the same ik it's not consecutive so these condition should help?? but it's not working
-                if(nthPhoneme(W,0)==nthPhoneme(afterSpace,0) && nthPhoneme(W,numofPho -1) != nthPhoneme(afterSpace, numofPhoA -1)){ 
-                    result += beforeSpace + " ";
-                } 
+                if(isAlpha(beforeSpace)==true ){
+                    result += beforeSpace += " ";
+                }
                 
-                if(nthPhoneme(W,0) != nthPhoneme(afterSpace,0) && nthPhoneme(W,numofPho -1) == nthPhoneme(afterSpace, numofPhoA -1)){
-                    result += beforeSpace + " ";
-                } 
             }
 
             
@@ -280,6 +318,8 @@ int main(){
     cout<<"Pronunciation:    " << P <<endl;
 
     cout<<"Identical:         "<< identical(upperW) <<endl;
+
+    //cout<< boolalpha << isAlpha("anchorman(1)");
 
     //cout<<"number of pho     "<<countPhoneme(P)<<endl;
     //cout<<fixPro(P);
