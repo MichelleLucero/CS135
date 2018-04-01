@@ -72,7 +72,7 @@ string pronunciation(string W){
     }
 
     if(!found){
-        cout<<"Not Foud"<<endl;
+        cout<<"Not Found"<<endl;
         }
     }
     inFile.close();
@@ -169,17 +169,19 @@ bool check_add(string inputpro,string pro){ //use this to filter pronuncations i
 
  
     int counter = 0;
-    if(numofinputpro == numofpro -1){
+    if(numofinputpro == numofpro -1){ 
         for(int i = 0; i < numofinputpro; i++){
-            int endPho = i + 1;
-            if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){
+            int endPho = i + 1; //accounts for a pronunciation that has a phoneme added at the end
+
+            
+            if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){ //suppose to account for phonemes added at the end
                 counter += 1;
             }
-            if(nthPhoneme(inputpro,i) == nthPhoneme(pro, endPho)){
+            if(nthPhoneme(inputpro,i) == nthPhoneme(pro, endPho)){ //suppose to account for phonemes added at the beginning
                 counter += 1;
             }
 
-            if(counter == numofinputpro){
+            if(counter == numofinputpro){ // counter == to the number of phonemes in inputpro
             add = true;
             }   
         }
@@ -224,7 +226,6 @@ string addPhoneme(string W){
     string afterSpace;
     string result;
     string line;
-    // string pronun = pronunciation(W);
 
     int numofPho = countPhoneme(W); //6 in plants
     int counter = 0;
@@ -243,10 +244,16 @@ string addPhoneme(string W){
 
         int numofPhoA = countPhoneme(afterSpace); 
             
-        if(check_add(W, afterSpace)==true){ 
-            result += beforeSpace + " ";
-
-        }
+            if(check_add(W, afterSpace)==true){//trying to solve ackerman - " AE1 K ERO M AHO N" resulting in " AE1 N K ERO AHO N"
+            //since the end and beg phoneme are the same ik it's not consecutive so these condition should help?? but it's not working
+                if(nthPhoneme(W,0)==nthPhoneme(afterSpace,0) && nthPhoneme(W,numofPho -1) != nthPhoneme(afterSpace, numofPhoA -1)){ 
+                    result += beforeSpace + " ";
+                } 
+                
+                if(nthPhoneme(W,0) != nthPhoneme(afterSpace,0) && nthPhoneme(W,numofPho -1) == nthPhoneme(afterSpace, numofPhoA -1)){
+                    result += beforeSpace + " ";
+                } 
+            }
 
             
         }
@@ -270,9 +277,9 @@ int main(){
 
    // cout<< countPhoneme(P)<<endl;
     
-    // cout<<"Pronunciation:    " << P <<endl;
+    cout<<"Pronunciation:    " << P <<endl;
 
-    // cout<<"Identical:         "<< identical(upperW) <<endl;
+    cout<<"Identical:         "<< identical(upperW) <<endl;
 
     //cout<<"number of pho     "<<countPhoneme(P)<<endl;
     //cout<<fixPro(P);
@@ -282,7 +289,7 @@ int main(){
     //cout<< boolalpha << check_add(" AH0 L UW1 ZH AH0 N"," K AH0 L UW1 ZH AH0 N")<<endl;
     //cout<< boolalpha<<check_remove(" F L AW1 ER0 Z"," F AW1 ER0 Z")<<endl;
     
-    cout<<addPhoneme(P)<<endl;
+    cout<<"Add phoneme:       "<<addPhoneme(P)<<endl;
 
 
 }
