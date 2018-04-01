@@ -45,7 +45,7 @@ string transformW(string W){
 string pronunciation(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a"); //take out txt when submitting
+    inFile.open("cmudict.0.7a.txt"); //take out txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -83,7 +83,7 @@ string pronunciation(string W){
 string identical(string W){
 
     ifstream inFile;
-    inFile.open("cmudict.0.7a"); //take out .txt when submitting
+    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -191,6 +191,34 @@ bool check_add(string inputpro,string pro){ //use this to filter pronuncations i
     return add; 
 }
 
+bool check_remove(string inputpro,string pro){ //use this to filter pronuncations in my addPhoneme funcs
+    bool remove = false;
+    int numofinputpro = countPhoneme(inputpro);//VIP number
+    int numofpro = countPhoneme(pro); //
+ 
+    int counter = 0;
+    if(numofinputpro -1 == numofpro){ 
+        for(int i = 0; i < numofpro; i++){
+            int endPho = i + 1; //accounts for a pronunciation that has a phoneme added at the end
+
+            
+            if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){ //suppose to account for phonemes added at the end
+                counter += 1;
+            }
+            
+            else if(nthPhoneme(inputpro,endPho) == nthPhoneme(pro, i)){ //suppose to account for phonemes added at the beginning
+                counter += 1;
+            }
+
+            if(counter == numofinputpro -1){ // counter == to the number of phonemes in inputpro
+            remove = true;
+            }   
+        }
+    }
+    
+    return remove; 
+}
+
 bool isAlpha(string W){
     bool alpha = true;
     int length = W.length();
@@ -231,37 +259,14 @@ bool isAlpha(string W){
 
     return alpha;
 }
-// bool check_remove(string inputpro,string pro){ //use this to filter pronuncations in my removePhoneme funcs
-    
-//     bool remove = false;
-//     int numofinputpro = countPhoneme(inputpro);//VIP number
-//     int numofpro = countPhoneme(pro);
-//     string inputpro = fixPro(inputpro); //earases the first space in pronuncaition so nthPhoneme can work
-//     string profix = fixPro(pro);
- 
-//     int counter = 0;
-//     if(numofinputpro -1 == numofpro){
-//         for(int i = 0; i < numofinputpro; i++){
-//             int endPho = i + 1;
-//             if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){
-//                 counter += 1;
-//             }
-//             if(nthPhoneme(inputpro, endPho) == nthPhoneme(pro,i)){
-//                 counter += 1;
-//             }
 
-//             if(counter == numofinputpro - 1){
-//             remove = true;
-//             }   
-//         }
-//     }
-//     // cout<<counter<<endl;
-//     return remove; 
-// }
+
+
+
 
 string addPhoneme(string W){ 
     ifstream inFile;
-    inFile.open("cmudict.0.7a"); //take out .txt when submitting
+    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
 
     string beforeSpace;
     string afterSpace;
@@ -301,6 +306,49 @@ string addPhoneme(string W){
     
     }
 
+string removePhoneme(string W){ 
+    ifstream inFile;
+    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
+
+    string beforeSpace;
+    string afterSpace;
+    string result;
+    string line;
+
+    int numofPho = countPhoneme(W); //6 in plants
+    int counter = 0;
+    
+    //Check For error
+    if(inFile.fail()){
+        cerr << "Error Opening File" << endl;
+        exit(1);
+    }
+
+        while(!inFile.eof()){
+        getline(inFile, line);
+        splitOnSpace(line,beforeSpace,afterSpace);
+
+
+
+        int numofPhoA = countPhoneme(afterSpace); 
+            
+            if(check_remove(W, afterSpace)==true){
+
+                if(isAlpha(beforeSpace)==true ){
+                    result += beforeSpace += " ";
+                }
+                
+            }
+
+            
+        }
+
+    inFile.close();
+    return result;
+    
+    }
+
+
 
 int main(){
 
@@ -327,9 +375,10 @@ int main(){
     //cout<< nthPhoneme(P,0)<<endl;
     
     //cout<< boolalpha << check_add(" AH0 L UW1 ZH AH0 N"," K AH0 L UW1 ZH AH0 N")<<endl;
-    //cout<< boolalpha<<check_remove(" F L AW1 ER0 Z"," F AW1 ER0 Z")<<endl;
+    //cout<< boolalpha<<check_remove(" D OW1 N AH2 T", " B OW1 N T")<<endl;
     
     cout<<"Add phoneme:       "<<addPhoneme(P)<<endl;
+    cout<<"Remove phoneme:    "<<removePhoneme(P)<<endl;
 
 
 }
