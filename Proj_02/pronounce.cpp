@@ -1,3 +1,13 @@
+/*
+Author: Michelle Lucero
+Course: CSCI-135
+Instructor: Mike Zamansky
+Assignment: Project 02, e.g., Pronounce
+
+Here, briefly, at least in one or a few sentences
+describe what the program does.
+*/
+
 #include<iostream>
 #include<fstream>
 #include<stdlib.h>
@@ -305,6 +315,31 @@ string addPhoneme(string W){
     return result;
     
     }
+bool check_replaced(string inputpro,string pro){ //use this to filter pronuncations that have x-1 phonemes in common with the inputed word
+    bool replaced = false;
+    int numofinputpro = countPhoneme(inputpro); //Phonemes of input
+    int numofpro = countPhoneme(pro); //Phonemes of afterSpace' pronuciation --- to be used in replacePhoneme
+
+ 
+    int counter = 0; // keeps tracks of the phonemes in common
+    if(numofinputpro == numofpro){ //needs to have the same # of phonemes
+        for(int i = 0; i < numofinputpro + 1; i++){
+            
+            if(nthPhoneme(inputpro,i) == nthPhoneme(pro,i)){ //checks to see if they are the same
+                counter += 1;
+                cout<<nthPhoneme(inputpro,i)<<endl;
+            }
+            
+
+            if(counter == numofinputpro - 1){ // counter should be equal to  numofinputpro -1 bc that would imply that the two pronunciation have x-1 in common
+            replaced = true;
+            }   
+        }
+         cout<<counter<<endl;
+    }
+    //cout<<counter<<endl;
+    return replaced; 
+}
 
 string removePhoneme(string W){ 
     ifstream inFile;
@@ -350,6 +385,48 @@ string removePhoneme(string W){
 
 
 
+string replacePhoneme(string W){ 
+    ifstream inFile;
+    inFile.open("cmudict.0.7a.txt"); //take out .txt when submitting
+
+    string beforeSpace;
+    string afterSpace;
+    string result;
+    string line;
+
+    int numofPho = countPhoneme(W); //6 in plants
+    int counter = 0;
+    
+    //Check For error
+    if(inFile.fail()){
+        cerr << "Error Opening File" << endl;
+        exit(1);
+    }
+
+        while(!inFile.eof()){
+        getline(inFile, line);
+        splitOnSpace(line,beforeSpace,afterSpace);
+
+
+
+        int numofPhoA = countPhoneme(afterSpace); 
+            
+            if(check_remove(W, afterSpace)==true){
+
+                if(isAlpha(beforeSpace)==true ){
+                    result += beforeSpace += " ";
+                }
+                
+            }
+
+            
+        }
+
+    inFile.close();
+    return result;
+    
+    }
+
 int main(){
 
     string W;
@@ -375,10 +452,10 @@ int main(){
     //cout<< nthPhoneme(P,0)<<endl;
     
     //cout<< boolalpha << check_add(" AH0 L UW1 ZH AH0 N"," K AH0 L UW1 ZH AH0 N")<<endl;
-    //cout<< boolalpha<<check_remove(" D OW1 N AH2 T", " B OW1 N T")<<endl;
+    cout<< boolalpha<<check_replaced(" D OW1 N AH2 T", " K R AE1 F T")<<endl;
     
-    cout<<"Add phoneme:       "<<addPhoneme(P)<<endl;
-    cout<<"Remove phoneme:    "<<removePhoneme(P)<<endl;
+    // cout<<"Add phoneme:       "<<addPhoneme(P)<<endl;
+    // cout<<"Remove phoneme:    "<<removePhoneme(P)<<endl;
 
 
 }
